@@ -3,20 +3,25 @@ import BlockComponent from './blockComponent'
 import Block from './block';
 import BigInt from 'big-integer';
 import SHA256 from 'crypto-js/sha256';
+import './index.scss';
 
 let IDindex = 0;
-const target = BigInt("000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",16);
-
-
+const diff = "0000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+const target = BigInt(diff,16);
 
 function App() {
   const [chain, addBlock] = useState([[IDindex,null,null,null,null]]);
+  const [timer, updateTimer] = useState([0]);
+  const [currentDifficulty] = useState(["Current Difficulty: " + diff]);
   
   function mineBlock(){
+    //id increase by 1
     IDindex++;
 
+    //create random data to be our "transaction"
     const data = createRandomTx();
 
+    //set block's previous hash attribute
     const currBlock = new Block(IDindex,data);
     
     currBlock.prevHash = "n/a";
@@ -31,19 +36,44 @@ function App() {
       currBlock.prevHash = toHash(lastBlock);
     }
     
+    //mine the block, adding nonce and hash attributes to the block
     mine(currBlock,target);
 
     addBlock([...chain,[IDindex,data,currBlock.prevHash,currBlock.hash,currBlock.nonce]])
     
   }
+
+  //mining function to find the block's hash. will increase nonce until it reaches target requirement
+  function mine(block,targetDiff){
+    block.nonce = 0;
+
+    while(true){
+      updateTimer("Nonce: " + block.nonce);
+      
+      let hash = SHA256(JSON.stringify(block)).toString();
+        if(BigInt(hash,16) < targetDiff){
+          block.hash = hash;
+          break;
+        }
+        block.nonce++;
+        
+    }
+  }
   
   return (
-    <div>
+  <div>
+    <div id='topButtons'>
       <button onClick={mineBlock}>
-        start
+        Mine
       </button>
-      {chain.map((block, i) => (<BlockComponent key={i} block={block}/> ))}
+      <div>{timer}</div>
+      <div>{currentDifficulty}</div>
     </div>
+    <div id='blockchain'>
+    {chain.map((block, i) => (<BlockComponent key={i} block={block}/>))}
+    </div> 
+  </div>
+      
     
   );
 }
@@ -58,18 +88,6 @@ function createRandomTx(){
   let randB = addresses[Math.floor(Math.random()*addresses.length)];
   let randNum = Math.floor(Math.random()*1000);
   return(`${randA} pays ${randB} ${randNum} dollars`);
-}
-
-function mine(block,targetDiff){
-  block.nonce = 0;
-  while(true){
-    let hash = SHA256(JSON.stringify(block)).toString();
-      if(BigInt(hash,16) < targetDiff){
-        block.hash = hash;
-        break;
-      }
-      block.nonce++;
-  }
 }
 
 //A toHash function which will create a hash of this block using the data it contains
