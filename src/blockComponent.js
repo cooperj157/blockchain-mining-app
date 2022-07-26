@@ -1,31 +1,32 @@
+
 function BlockComponent (props){
-    let i=0;
+    
     return(
-        <ul id={"block"+i}>
-            <div className="header">
+        <ul id={`block${props.block[0]}`}>
+            <li className="header">
                 Block ID
-                <li>{props.block[0]}</li>
-            </div>
-            <div className="header">
+            </li>
+            <div>{props.block[0]}</div>
+            <li className="header">
                 Data
-                <li>{props.block[1]}</li>
-            </div>
-            <div className="header">
+            </li>
+            <div>{props.block[1]}</div>
+            <li className="header">
                 Previous Hash
-                <li>{props.block[2]}</li>
-            </div>
-            <div className="header">
+            </li>
+            <div>{props.block[2]}</div>
+            <li className="header">
                 Hash
-                <li>{props.block[3]}</li>
-            </div>
-            <div className="header">
+            </li>
+            <div>{props.block[3]}</div>
+            <li className="header">
                 Nonce
-                <li>{props.block[4]}</li>
-            </div>
+            </li>
+            <div>{props.block[4]}</div>
         </ul>
         
-        
     );
+    
 }
 
 export default BlockComponent;
