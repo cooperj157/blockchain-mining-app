@@ -1,0 +1,31 @@
+#blockchain{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: left;
+  }
+  
+  #block0{
+    display: none;
+  }
+  
+  ul{
+    list-style: none;
+    border: 5px dashed lightblue;
+    overflow-wrap: break-word;
+    width: 25%;
+    height:fit-content;
+    padding: 0% 1% 1% 1%;
+    margin: 2%;
+    text-align: center;
+  }
+  
+  .blockItemHeader{
+    font-weight: bold;
+    margin-top: 5%;
+    margin-bottom: 1%;
+    margin-left: 4%;
+  }
+  
+  
+  
