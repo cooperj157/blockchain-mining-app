@@ -3,16 +3,16 @@ import BlockComponent from './blockComponent'
 import Block from './block';
 import BigInt from 'big-integer';
 import SHA256 from 'crypto-js/sha256';
-import './index.scss';
+import './App.scss';
 
 let IDindex = 0;
-const diff = "0000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+const diff = "0000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"
 const target = BigInt(diff,16);
 
 function App() {
   const [chain, addBlock] = useState([[IDindex,null,null,null,null]]);
-  const [timer, updateTimer] = useState([0]);
-  const [currentDifficulty] = useState(["Current Difficulty: " + diff]);
+  const [nonceCounter, updateCounter] = useState(0);
+  const [currentDifficulty] = useState(diff);
   
   function mineBlock(){
     //id increase by 1
@@ -48,8 +48,7 @@ function App() {
     block.nonce = 0;
 
     while(true){
-      updateTimer("Nonce: " + block.nonce);
-      
+      updateCounter(block.nonce);
       let hash = SHA256(JSON.stringify(block)).toString();
         if(BigInt(hash,16) < targetDiff){
           block.hash = hash;
@@ -63,11 +62,30 @@ function App() {
   return (
   <div>
     <div id='topButtons'>
-      <button onClick={mineBlock}>
-        Mine
-      </button>
-      <div>{timer}</div>
-      <div>{currentDifficulty}</div>
+      <div id='mineButtonContainer'>
+        <h4 id='mineButtonHeader'>Click here to mine a block</h4>
+        <button id='mineButton' onClick={mineBlock}>
+          Mine
+        </button>
+      </div>
+      <div id='nonceContainer'>
+        <h4 id='nonceHeader'>
+          Nonce
+        </h4>
+        <div id='nonce'>
+          {nonceCounter}
+        </div>
+      </div>
+      <div id='difficultyControl'>
+        <h4 style={{
+          textDecoration: 'underline'
+        }}
+        >Current Difficulty</h4>
+        <label>
+          <input type="text" size={77} value={currentDifficulty} />
+        </label>
+        <input type="submit" value="Submit" />
+      </div>
     </div>
     <div id='blockchain'>
     {chain.map((block, i) => (<BlockComponent key={i} block={block}/>))}

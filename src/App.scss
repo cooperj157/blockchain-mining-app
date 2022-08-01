@@ -1,0 +1,54 @@
+
+
+#topButtons{
+  display: flex;
+  
+}
+
+#mineButtonContainer{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  padding: 0 6%;
+}
+
+#mineButton{
+  border-radius: 50%;
+  padding:10px;
+  width: fit-content;
+  border-color: deepskyblue;
+}
+
+#nonceContainer{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: fit-content;
+  padding: 0 100px;
+}
+
+#nonceHeader{
+  text-decoration: underline;
+  margin-bottom: 20%;
+}
+
+#nonce{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  font-style: italic;
+  font-size: 24px;
+  width: 125px;
+  
+}
+
+#difficultyControl{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: fit-content;
+}
+
